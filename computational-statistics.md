@@ -1,6 +1,10 @@
 ## Multiple Linear Regression
 
+* Multiple linear regression: a linear of function of several predictors (or covaraibles)
 
+![mlr_formula](./img/mlr_formula.png)
+
+* ​
 
 ## Cross-Validation##
 

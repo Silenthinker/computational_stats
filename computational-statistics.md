@@ -45,7 +45,21 @@
 
   ## Nonparametric Density Estimation
 
-  *  
+  *  Kernel estimator
+    * Naive estimator![naive_kernel](./img/naive_kernel.png)
+    * Typical kernel: gaussian, Epanechnikov (optimal w.r.t. mean squared error)
+
+* Hyperparameter: bandwidth, which can be either global or local
+
+  * IMSE (integrated mean squared error) ![imse](./img/imse.png)
+  * ![mise](./img/mise.png)
+  * Local and global optimal bandwidth (see p.p 20 - 22)
+
+
+
+## Nonparametric Regression
+
+* ​
 
 ## Cross-Validation
 

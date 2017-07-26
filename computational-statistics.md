@@ -2,11 +2,52 @@
 
 * Multiple linear regression: a linear of function of several predictors (or covaraibles)
 
-![mlr_formula](./img/mlr_formula.png)
+  * Formula ![mlr_formula](./img/mlr_formula.png)
+  * Assumptions: errors are **i.i.d.** with zero expectation and an unknown variance; n > p; X is of full rank.
+  * Look for good estimates of $\beta$ in terms of least squares![mlr_param](./img/mlr_param.png)
+  * Variance $\sigma^2$ can be estimated using ![mlr_var](./img/mlr_var.png)
+  * Assumptions for the linear model so that least square estimator and test and confidence intervals are approximately valid:
+    1. LR equation is correct;
+    2. All predictors can be perfectly observed;
+    3. Homoscedasticity for errors (var is constant);
+    4. Errors are uncorrelated;
+    5. Errors are jointly normally distritubed.
+  * ZSD: when a matrix $P$ is sym.; idem-potent $P^2 = P$; and has trace equal to dim, then it's a orthogonal projection
+  * Simple least squares regressions on single predictor variables yield the multiple regression least squares solution, only if the predictor variables are orthogonal.
 
-* ​
+* Tests and confidence regions
 
-## Cross-Validation##
+  * Use *ANOVA* decomposition to test whether there is any effect from predictor variables (instead of individual test), where $\hat Y$ is the mean of Y: more specifically, use F-test to compare mean square of regression and error respectively![anova](./img/anova.png)
+  * ![anova_full](./img/anova_full.png)
+  * **Coefficient of determination**: goodness of fit of the linear model for explaining the data![R](./img/R.png)
+
+* Analysis of residuals and checking of model assumptions
+
+  * The Tukey-Anscombe plot: residual against fitted values
+    * Linear: log transformation for y
+    * Non-linear: square root transformation for y if quadratic
+    * Systematic: either transform the response variable or use weighted regression
+  * The normal plot: a special case of QQ plot (quantile-quantile), empirical quantile of residuals versus theoretical quantile of normal distribution
+  * Residuals versus observation number to detect serial correlation
+
+* Generalized least squares: errors are correlated with known covariance matrix; using square root of covariance matrix to solve the problem
+
+* Model selection
+
+  * Mallows $C_p$ statistic where SSE is residual sum of squares and $\hat \sigma ^2$ error variance estimate: ![mallows](./img/mallows.png)
+  * Forward selection
+    1. Start with the smallest model
+    2. Include the predictor that reduces most the residual sum of squares
+    3. Until all predictors are selected or a large number of predictors
+    4. Choose the model in the sequence with the smallest $C_p$ statistic
+
+  ​		
+
+  ## Nonparametric Density Estimation
+
+  *  
+
+## Cross-Validation
 
 * Generalization performance
   * measures the predictive power of a learning method on new, out-sample data

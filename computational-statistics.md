@@ -59,7 +59,20 @@
 
 ## Nonparametric Regression
 
-* ​
+* Nonparametric regression model, where noise is i.i.d. and centered, m is called nonparametric regression function satisfying $E[Y|X=x]$ ![nonparametric_regression](./img/nonparametric_regression.png)
+* The kernel regression estimator
+  * Nadaraya-Watson kernel estimator: plug univariate and bivariate kernel density into the conditional expectation ![Nadaraya_Watson](./img/Nadaraya_Watson.png)
+  * Role of bandwidth
+    * Similar to its role in nonparametric density estimation, we can deduce optimal local bandwidth
+    * `library(lokern); lofit <- lokerns(cars$ speed, cars$ dist)`
+* The **Hat Matrix S**: linear operator to map true Ys to fitted values
+  * Degrees of freedom = tr(S)
+* Local polynomial nonparametric regression estimator (**TBU**)
+  * Extend to locally polynomial function from locally constant Nadaraya-Watson kernel estimator
+* Smoothing splines and penalized regression
+  * Penalized sum of squares, where large $\lambda$ gives a smooth function![penalized_sum_of_squares](./img/penalized_sum_of_squares.png)
+  * The solution is a natural cubic spline with knots at the observed points, **see derivation**
+  * Adaption to density of the predictor variables
 
 ## Cross-Validation
 
@@ -109,7 +122,7 @@
 
   * two-sided confidence interval:
 
-    ![bootstrap-ci](/Users/Junlin/Documents/ETH/FS2017/Computational statistics/img/bootstrap-ci.png)
+    ![bootstrap-ci](./img/bootstrap-ci.png)
 
 * Bootstrap estimate of the generalization error
 

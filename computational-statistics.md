@@ -41,7 +41,7 @@
     3. Until all predictors are selected or a large number of predictors
     4. Choose the model in the sequence with the smallest $C_p$ statistic
 
-  ​		
+     ​
 
   ## Nonparametric Density Estimation
 
@@ -79,11 +79,17 @@
 * Generalization performance
   * measures the predictive power of a learning method on new, out-sample data
   * generalization error: expected value of loss w.r.t training and test data, see (4.1)
+    * Theoretical test error: ![theoretical_test_error](./img/theoretical_test_error.png)
+    * Generalization error: ![generalization_error](./img/generalization_error.png)
 * Leave-one-out CV
   * (4.2) is an estimate of generalization error
   * expensive due to retraining for every sample
+* K-fold CV
+  * Random partition is crucial to prevent missing information
+  * Disadvantage: depends only on one realized random partition
 * Leave-d-out CV
   * basic version: consider all subsets of d data points as test data
+  * Also an **estimate** of generalization error
   * improvement using randomization: draw B random test subsets uniformly without replacement
     * implementation: a random test subset can be constructed by **sampling without replacement**, i.e., draw d times randomly without replacement from {1,2,…,n}
     * d = [10%*n], B = 50 - 500
@@ -91,15 +97,15 @@
     * possible drawback is that C_k may coincide
 * K-fold CV
   * note: random partition is important to prevent missing information
-* Properties of different CV- schemes
+* **Properties** of different CV- schemes
   * LOO: approx. unbiased for true generalization error; slight bias + high variance (due to high covariance caused by similar training set)
   * Leave-d-out: higher bias than LOO + less variance (even though we average over more highly correlated summands)
   * K-fold: higher bias + unclear variance
 * Computational shortcut for some linear fitting operators
   * LOO score
     * when prediction on the training data points can be linearly represented by targets
-    * compute the CV score by fitting the original estimator **once** on the **full** dataset (4.5)
-    * use GCV (generalized cross-validation) to approximate the (4.5)
+    * compute the CV score by fitting the original estimator **once** on the **full** dataset (4.5) ![shortcut](./img/shortcut.png)
+    * use GCV (generalized cross-validation) to approximate the (4.5) (use average value of diagonal elements computed through trace)
 
 
 
@@ -139,8 +145,42 @@
   * much more expensive yet powerful
 
 
+## Classification
 
-  ​		
+*  The Bayes classifier
+
+  * The expected zero-one test set error is also called **Bayes risk**
+
+* Discriminant analysis
+
+  * Linear discriminant analysis
+    * Use p-dimensional Gaussian distribution with equal covariance to describe conditional probability given class, then apply Bayes rule to compute a-posteriori prob. given a-priori prob.
+    * Estimate parameters of Gaussian distribution using standard moment estimators (see 6.5)
+    * Yield linear discriminant classifier
+  * Quadratic discriminant analysis
+    * Assume non-equal covariance for all groups
+    * Advantage: more flexible and more general than its linear counterpart
+    * Disadvantage: more parameters to estimate; when dimension is high, it typically overfits due to too large variability
+
+* Logistic regression
+
+  * Directly look for good a-posteriori prob.
+
+  * Binary classification
+
+     ![logistic_model](./img/logistic_model.png)
+
+    * The above logistic model maps a [0, 1] interval to real number; thus models for real-valued functions can be used for g, such as linear model, yielding linear logistic regression
+    * Use maximum likelihood to fit parameters + gradient descent algorithms
+    * R function: `glm`
+
+  * Multiclass case
+
+    * One against all (multinomial case): `multinom()` from `nnet`
+    * Everyone against reference
+    * One against another
+    * For ordered classes: proportional odds model `polr()` from `MASS`
+
   ​	
 
 

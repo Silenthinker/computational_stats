@@ -138,11 +138,19 @@
 * Out-of-bootstrap sample for estimation of the generalization error
 
   * use only out-of-bootstrap sample to estimate error!
-  * the size of out-of-bootstrap sample is approximately 0.368*n
+  * the size of out-of-bootstrap sample is approximately 0.368*n ![out_of_sample_bootstrap](./img/out_of_sample_bootstrap.png)
 
-* Double bootstrap
+* Double bootstrap **TBU**
 
-  * much more expensive yet powerful
+  * Aims to construct a more exact confidence interval
+  * much more expensive yet powerful 
+
+* Model-based bootstrap
+
+  * Assume data are realizations from a parametric distribution
+  * Proceed by first estimating the unknown parameter, then using distribution based on the estimated parameter to generate bootstrap samples
+  * Advantage: parametric bootstrap yields distribution closer to the true one than the non-parametric version
+  * See 5.4.2 and 5.4.3 for procedures for regression cases
 
 
 ## Classification
@@ -170,7 +178,7 @@
 
      ![logistic_model](./img/logistic_model.png)
 
-    * The above logistic model maps a [0, 1] interval to real number; thus models for real-valued functions can be used for g, such as linear model, yielding linear logistic regression
+  * The above logistic model maps a [0, 1] interval to real number; thus models for real-valued functions can be used for g, such as linear model, yielding linear logistic regression
     * Use maximum likelihood to fit parameters + gradient descent algorithms
     * R function: `glm`
 
@@ -181,8 +189,95 @@
     * One against another
     * For ordered classes: proportional odds model `polr()` from `MASS`
 
-  ​	
 
+
+## Flexible regression and classification methods
+
+* Introduction: to tackle dimensionality curse, make structural assumptions based on non-parametric methods
+
+* Additive models: generalization of linear models ![additive_models](./img/additive_models.png)
+
+  * **Backfitting**
+
+    * A very general tool/coordinate-wise optimization method for estimation in additive (and other) structures
+    * Algorithm: Assume we have primitive estimation of some g(x)’s, and we subtract all but one term
+      from y, and conduct 1-D regression as in Chapter 3 then we change roles of g(x)’s
+
+  * **R**
+
+    * `gam` (generalized additive model) from package `mgcv` with smoother being penalized regression spline which will choose the degree of freedom
+
+    * ```R
+      > fitA <- gam(O3 ~ s(vdht)+ s(wind)+ s(humidity)+ s(temp)+ s(ibht)+ s(dgpg)+ 	s(ibtp)+ s(vsty)+ s(day),  data = d.ozone)
+      > fitA2 <- update(fitA, log(O3) ~ . )
+      > fitA2.o <- update(fitA2, subset = -92)
+      ```
+
+*  MARS: **m**ultivariate **a**daptive **r**egression **s**plines
+
+  * A forward selection of reflected pairs of basis functions and their products
+  * **R**
+    * `mars` from package `mda` or **more** flexible one: `earth` from package `earth`
+
+* Neural networks
+
+  * Useful variant to one-hidden-layer forward nn: with linear regression component![nn_linear_regression](./img/nn_linear_regression.png)
+  * **R**
+    * `nnet` from package `nnet`, use `skip` argument to choose whether to use network with linear regression component
+
+* Projection pursuit regression
+
+  * Instead of using sigmoid functions, use nonparametric functions and linear projections
+  * Estimation through backfitting algorithm
+  * **R**
+    * `ppr` in `R`
+
+* Classification and regression trees (CART) ![cart](./img/cart.png)
+
+  * Partition found by *tree-structured search algorithm* (see 7.6.2)
+
+  * **R**
+
+    * `rpart()` from package `rpart` for both regression and classification trees
+
+    * ```R
+      > require(rpart.plot) # for nice tree graphs
+      > prp(f.rp, type = 3, extra = 1)
+      ```
+
+  * Random forests
+
+    * Tree + Bootstrap + Bagging
+    * At each node only consider a random set of predictors
+    * **R**
+      * package `randomForest`
+
+* Variable selection, regularization, and ridging and the lasso
+
+  * Ridge regression (useful for case of p >> n )![ridge](./img/ridge.png)
+  * The Lasso (model selection)![lasso](./img/lasso.png)
+  * Elastic net ![elastic_net](./img/elastic_net.png)
+    * **R**: package `elasticnet`
+  * Adaptive Lasso with penalty weights ![adaptive_lasso](./img/adaptive_lasso.png)
+  * Relaxed Lasso
+    * Motivated by the idea that variable selection on one hand and shrinking of the selected variables on the other hand should be controllable separately
+    * **R**: package `relaxo`
+  * The (sparse) group Lasso
+    * Deal with categorical variables
+    * **R**: package `grplasso`
+
+## Bagging and Boosting
+
+* Bagging = **B**oostrap **agg**regat**ing**, and boosting are useful to improve predictive performance of tree models; boosting also useful for, e.g., additive models with high-dimensional predictors
+* Bagging
+  * Generate bootstrap samples and average results
+  * High bias yes low variance for tree-based estimators
+* Subagging = **sub**sample **agg**regat**ing** draws less samples without replacement
+* Boosting (L2Boosting in particular)
+  * Fit residuals
+  * Bias-reduction technique
+
+​
 
 ​			
 ​		
